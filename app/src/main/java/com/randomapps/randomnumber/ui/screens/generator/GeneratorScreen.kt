@@ -24,6 +24,12 @@ fun GeneratorScreen(viewModel : GeneratorViewModel) {
             .fillMaxWidth()
             .fillMaxHeight()) {
         when (viewState.value) {
+            is GeneratorViewState.Start -> {
+                val startState = viewState as GeneratorViewState.Start
+                Text("--",
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.align(CenterHorizontally))
+            }
             is GeneratorViewState.NumberGenerated -> {
                 val numberGeneratedState = viewState as GeneratorViewState.NumberGenerated
                 Text(numberGeneratedState.number.toString(),
