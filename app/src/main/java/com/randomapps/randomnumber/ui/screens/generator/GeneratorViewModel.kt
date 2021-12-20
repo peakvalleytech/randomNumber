@@ -18,7 +18,7 @@ class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = Gen
     private var to : Int = 0
     init {
         viewModelScope.launch {
-            _stateFlow.emit(GeneratorViewState.Input(number.toString(), from, to))
+            _stateFlow.emit(GeneratorViewState.Input(number, from, to))
         }
     }
     override fun handleIntent(intent: Intent) {
@@ -26,12 +26,8 @@ class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = Gen
             is GenerateNumber -> {
                 viewModelScope.launch {
                     try {
-//                        generateNumberUseCase.generateNumber()
-                        val from = intent.from
-                        val to = intent.to
-                        val rand = Random(System.currentTimeMillis())
-                        val number =  rand.nextInt(from, to + 1)
-                        _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
+                        number = generateNumberUseCase.generateNumber(from, to).toString()
+                        _stateFlow.emit(GeneratorViewState.Success(number, from, to))
                     } catch (e: IllegalArgumentException) {
                         _stateFlow.emit(GeneratorViewState.Error("Invalid range."))
                     }
@@ -39,14 +35,15 @@ class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = Gen
             }
             is InputIntent -> {
                 viewModelScope.launch {
-                    _stateFlow.emit(GeneratorViewState.Input(number.toString(), from, to))
+                    _stateFlow.emit(GeneratorViewState.Input(number, from, to))
                 }
             }
             is UpdateRange -> {
                 viewModelScope.launch {
+                    number = "--"
                     from = Integer.valueOf(intent.from)
                     to = Integer.valueOf(intent.to)
-                    _stateFlow.emit(GeneratorViewState.Input("--", from, to))
+                    _stateFlow.emit(GeneratorViewState.Input(number, from, to))
                 }
             }
         }
