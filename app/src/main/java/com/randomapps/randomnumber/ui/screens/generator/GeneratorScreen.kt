@@ -5,22 +5,21 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.randomapps.randomnumber.ui.common.component.AppTextField
-import com.randomapps.randomnumber.ui.common.component.RandomNumberTopBar
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
-import kotlinx.coroutines.launch
+import com.randomapps.randomnumber.ui.screens.generator.intents.InputIntent
+import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateRange
 
 @Composable
 fun GeneratorScreen(viewModel : GeneratorViewModel) {
-    val viewState = viewModel.stateFlow
-        .collectAsState()
+    val viewState = viewModel.stateFlow.collectAsState()
     var numberState by remember { mutableStateOf("") }
-    var fromTextState by remember { mutableStateOf(TextFieldValue(""))}
-    var toTextState by remember { mutableStateOf(TextFieldValue(""))}
+    var range by remember {mutableStateOf(Pair(0, 0))}
     val scaffoldState = rememberScaffoldState()
+    val focusManager = LocalFocusManager.current
 
     Scaffold(scaffoldState = scaffoldState) {
         Column(
@@ -34,10 +33,16 @@ fun GeneratorScreen(viewModel : GeneratorViewModel) {
                 }
                 is GeneratorViewState.Error -> {
                     val state = viewState.value as GeneratorViewState.Error
-                   LaunchedEffect(scaffoldState.snackbarHostState) {
-
+                   LaunchedEffect(range) {
+                       focusManager.clearFocus()
                        scaffoldState.snackbarHostState.showSnackbar(state.msg)
+                       viewModel.handleIntent(InputIntent())
                     }
+                }
+                is GeneratorViewState.Input -> {
+                    val state = viewState.value as GeneratorViewState.Input
+                    numberState = state.number
+                    range = Pair(state.from, state.to)
                 }
             }
 
@@ -45,23 +50,21 @@ fun GeneratorScreen(viewModel : GeneratorViewModel) {
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier.align(CenterHorizontally))
             Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = "From", value = fromTextState) { newText ->
-                fromTextState = newText
+            AppTextField(label = "From", value = range.first.toString()) { newLower ->
+                viewModel.handleIntent(UpdateRange(newLower, range.second.toString()))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = "To", value = toTextState) { newText ->
-                toTextState = newText
+            AppTextField(label = "To", value = range.second.toString() ) { newUpper ->
+                viewModel.handleIntent(UpdateRange(range.first.toString(), newUpper))
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    viewModel.handleIntent(GenerateNumber(fromTextState.text.toInt(), toTextState.text.toInt()))
+                    viewModel.handleIntent(GenerateNumber(range.first, range.second))
                 },
                 modifier = Modifier.align(CenterHorizontally)
             ) {Text("Next")}
-
         }
-
     }
 }
 
