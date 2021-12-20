@@ -1,6 +1,7 @@
 package com.randomapps.randomnumber.ui.common.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -20,6 +21,7 @@ fun AppTextField(label: String, value: TextFieldValue, onValueChanged: (TextFiel
         value = value,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         onValueChange = {onValueChanged(it)},
+        maxLines = 1,
         modifier = Modifier.align(Alignment.Center))
 
     }
