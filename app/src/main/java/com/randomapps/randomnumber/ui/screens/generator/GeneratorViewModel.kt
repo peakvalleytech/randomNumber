@@ -2,19 +2,19 @@ package com.randomapps.randomnumber.ui.screens.generator
 
 import androidx.lifecycle.viewModelScope
 import com.randomapps.randomgenerator.domain.usecase.GenerateNumberUseCase
-import com.randomapps.randomgenerator.domain.usecase.impl.GenerateNumberUseCaseImpl
 import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
 import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateFrom
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateTo
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
-import java.lang.NumberFormatException
-import kotlin.random.Random
+import javax.inject.Inject
 
-class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = GenerateNumberUseCaseImpl()) : BaseViewModel() {
+class GeneratorViewModel() : BaseViewModel() {
+    @Inject
+    lateinit var generateNumberUseCase : GenerateNumberUseCase
     private var number : String = ""
     private var from : Int = 0
     private var to : Int = 0
@@ -24,11 +24,9 @@ class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = Gen
             is GenerateNumber -> {
                 viewModelScope.launch {
                     try {
-//                        generateNumberUseCase.generateNumber()
                         val from = intent.from
                         val to = intent.to
-                        val rand = Random(System.currentTimeMillis())
-                        val number =  rand.nextInt(from, to + 1)
+                        val number = generateNumberUseCase.generateNumber(from, to)
                         _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
                     } catch (e: IllegalArgumentException) {
                         _stateFlow.emit(GeneratorViewState.Error("Invalid range."))

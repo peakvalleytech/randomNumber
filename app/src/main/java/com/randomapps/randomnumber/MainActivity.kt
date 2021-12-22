@@ -11,7 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.randomapps.randomnumber.ui.common.component.RandomNumberTopBar
 import com.randomapps.randomnumber.ui.nav.NavComponent
 import com.randomapps.randomnumber.ui.theme.RandomNumberTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
