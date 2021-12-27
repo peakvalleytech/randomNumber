@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
@@ -69,7 +70,8 @@ dependencies {
 
     // DI
     implementation appDependencies.get("hiltDagger")
-    annotationProcessor appDependencies.get("hiltDaggerCompiler")
+    kapt appDependencies.get("hiltDaggerCompiler")
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-rc01'
 
     // Testing
     testImplementation 'junit:junit:4.+'

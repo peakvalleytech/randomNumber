@@ -8,13 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.common.component.RandomNumberTopBar
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import kotlinx.coroutines.launch
 
 @Composable
-fun GeneratorScreen(viewModel : GeneratorViewModel) {
+fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val viewState = viewModel.stateFlow
         .collectAsState()
     var numberState by remember { mutableStateOf("") }

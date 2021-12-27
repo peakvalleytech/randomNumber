@@ -8,13 +8,13 @@ import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateFrom
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateTo
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GeneratorViewModel() : BaseViewModel() {
-    @Inject
-    lateinit var generateNumberUseCase : GenerateNumberUseCase
+@HiltViewModel
+class GeneratorViewModel @Inject constructor(val generateNumberUseCase : GenerateNumberUseCase) : BaseViewModel() {
+
     private var number : String = ""
     private var from : Int = 0
     private var to : Int = 0
