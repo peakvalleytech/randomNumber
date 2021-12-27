@@ -2,13 +2,10 @@ package com.randomapps.randomnumber.ui.screens.generator
 
 import androidx.lifecycle.viewModelScope
 import com.randomapps.randomgenerator.domain.usecase.GenerateNumberUseCase
-import com.randomapps.randomgenerator.domain.usecase.impl.GenerateNumberUseCaseImpl
 import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
 import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
-import com.randomapps.randomnumber.ui.screens.generator.intents.InputIntent
-import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateRange
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateFrom
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateTo
 import dagger.hilt.android.lifecycle.HiltViewModel
