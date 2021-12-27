@@ -15,7 +15,7 @@ fun NavComponent() {
 
     NavHost(navController, startDestination = Screen.Generator.route) {
         composable(Screen.Generator.route) {
-             GeneratorScreen(GeneratorViewModel())
+             GeneratorScreen()
         }
         composable(Screen.Settings.route) {
             Text("Settings")

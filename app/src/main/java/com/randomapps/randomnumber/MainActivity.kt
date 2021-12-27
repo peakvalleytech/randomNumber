@@ -10,10 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.randomapps.randomnumber.ui.common.component.RandomNumberTopBar
 import com.randomapps.randomnumber.ui.nav.NavComponent
+import com.randomapps.randomnumber.ui.screens.generator.GeneratorViewModel
 import com.randomapps.randomnumber.ui.theme.RandomNumberTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             RandomNumberTheme {

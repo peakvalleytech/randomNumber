@@ -9,49 +9,72 @@ import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.InputIntent
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateRange
+import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateFrom
+import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateTo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlin.random.Random
+import javax.inject.Inject
 
-class GeneratorViewModel(val generateNumberUseCase : GenerateNumberUseCase = GenerateNumberUseCaseImpl()) : BaseViewModel() {
-    private var number : String = "--"
+@HiltViewModel
+class GeneratorViewModel @Inject constructor(val generateNumberUseCase : GenerateNumberUseCase) : BaseViewModel() {
+
+    private var number : String = ""
     private var from : Int = 0
     private var to : Int = 0
-    init {
-        viewModelScope.launch {
-            _stateFlow.emit(GeneratorViewState.Input(number, from, to))
-        }
-    }
+
     override fun handleIntent(intent: Intent) {
         when (intent) {
             is GenerateNumber -> {
                 viewModelScope.launch {
                     try {
-                        number = generateNumberUseCase.generateNumber(from, to).toString()
-                        _stateFlow.emit(GeneratorViewState.Success(number, from, to))
+                        val from = intent.from
+                        val to = intent.to
+                        val number = generateNumberUseCase.generateNumber(from, to)
+                        _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
                     } catch (e: IllegalArgumentException) {
                         _stateFlow.emit(GeneratorViewState.Error("Invalid range."))
                     }
                 }
             }
-            is InputIntent -> {
+
+            is UpdateFrom -> {
+                val updateFrom = intent as UpdateFrom
                 viewModelScope.launch {
-                    _stateFlow.emit(GeneratorViewState.Input(number, from, to))
+                    try {
+                        from = Integer.valueOf(updateFrom.from)
+                        _stateFlow.emit(GeneratorViewState.Success(number, from, to))
+                    } catch (nfe: NumberFormatException) {
+                        _stateFlow.emit(GeneratorViewState.Error("Invalid number."))
+                    }
                 }
             }
-            is UpdateRange -> {
+            is UpdateTo -> {
+                val updateTo = intent
                 viewModelScope.launch {
-                    number = "--"
-                    from = Integer.valueOf(intent.from)
-                    to = Integer.valueOf(intent.to)
-                    _stateFlow.emit(GeneratorViewState.Input(number, from, to))
+                    try {
+                        to = Integer.valueOf(updateTo.to)
+                        _stateFlow.emit(GeneratorViewState.Success(number, from, to))
+                    } catch (nfe: NumberFormatException) {
+                        _stateFlow.emit(GeneratorViewState.Error("Invalid number."))
+                    }
                 }
             }
+
+        }
+    }
+
+    fun load() {
+        if (number.isEmpty()) {
+            number = "--"
+        }
+        viewModelScope.launch {
+                _stateFlow.emit(GeneratorViewState.Success(number, from, to))
         }
     }
 }
 
 sealed class GeneratorViewState : ViewState {
-    class Input(val number : String, val from : Int, val to : Int) : GeneratorViewState()
+//    class Start(val text : String, val from : Int, val to : Int) : GeneratorViewState()
     class Success(val number : String, val from : Int, val to : Int) : GeneratorViewState()
     class Error(val msg : String) : GeneratorViewState()
 }

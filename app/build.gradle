@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -49,19 +51,34 @@ android {
 
 dependencies {
 
+    // Core
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'com.google.android.material:material:1.4.0'
+
+    // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
+
+
+    // Domain
     implementation project(path: ':app:domain')
+
+    // DI
+    implementation appDependencies.get("hiltDagger")
+    kapt appDependencies.get("hiltDaggerCompiler")
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-rc01'
+
+    // Testing
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+
+    // Debugging
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 }
