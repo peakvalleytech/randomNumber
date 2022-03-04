@@ -69,8 +69,8 @@ dependencies {
     implementation project(path: ':app:domain')
 
     // DI
-    implementation appDependencies.get("hiltDagger")
-    kapt appDependencies.get("hiltDaggerCompiler")
+    implementation "com.google.dagger:hilt-android:$hiltDaggerVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltDaggerVersion"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-rc01'
 
     // Testing
