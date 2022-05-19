@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
+import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
 
 @ExperimentalComposeUiApi
 @Composable
@@ -38,6 +39,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     val state = viewState.value as GeneratorViewState.Error
                    LaunchedEffect(scaffoldState.snackbarHostState) {
                        scaffoldState.snackbarHostState.showSnackbar(state.msg)
+                       viewModel.handleIntent(ResetState())
                     }
                 }
             }

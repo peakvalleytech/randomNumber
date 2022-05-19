@@ -6,6 +6,7 @@ import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
 import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
+import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateFrom
 import com.randomapps.randomnumber.ui.screens.generator.intents.UpdateTo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,11 @@ class GeneratorViewModel @Inject constructor(val generateNumberUseCase : Generat
 
     override fun handleIntent(intent: Intent) {
         when (intent) {
+            is ResetState -> {
+                viewModelScope.launch {
+                    _stateFlow.emit(GeneratorViewState.DefaultState())
+                }
+            }
             is GenerateNumber -> {
                 viewModelScope.launch {
                     try {
@@ -58,7 +64,6 @@ class GeneratorViewModel @Inject constructor(val generateNumberUseCase : Generat
                     }
                 }
             }
-
         }
     }
 
@@ -74,6 +79,7 @@ class GeneratorViewModel @Inject constructor(val generateNumberUseCase : Generat
 
 sealed class GeneratorViewState : ViewState {
 //    class Start(val text : String, val from : Int, val to : Int) : GeneratorViewState()
+    class DefaultState() : GeneratorViewState()
     class Success(val number : String, val from : Int, val to : Int) : GeneratorViewState()
     class Error(val msg : String) : GeneratorViewState()
 }
