@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -22,7 +21,6 @@ fun AppTextField(label: String, value: String, onValueChanged: (String) -> Unit)
     TextField(
         label = { Text(label) },
         value = value,
-        keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()}),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
         onValueChange = {onValueChanged(it)},
         maxLines = 1,
