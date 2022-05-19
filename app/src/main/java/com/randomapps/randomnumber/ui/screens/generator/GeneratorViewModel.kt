@@ -24,12 +24,14 @@ class GeneratorViewModel @Inject constructor(val generateNumberUseCase : Generat
             is GenerateNumber -> {
                 viewModelScope.launch {
                     try {
-                        val from = intent.from
-                        val to = intent.to
+                        val from = intent.from.toInt()
+                        val to = intent.to.toInt()
                         val number = generateNumberUseCase.generateNumber(from, to)
                         _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
                     } catch (e: IllegalArgumentException) {
-                        _stateFlow.emit(GeneratorViewState.Error("Invalid range."))
+                        _stateFlow.emit(GeneratorViewState.Error("Not a valid range"))
+                    } catch (e: java.lang.NumberFormatException) {
+                         _stateFlow.emit(GeneratorViewState.Error("Not a valid range"))
                     }
                 }
             }

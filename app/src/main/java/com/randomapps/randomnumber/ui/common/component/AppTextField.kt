@@ -22,7 +22,7 @@ fun AppTextField(label: String, value: String, onValueChanged: (String) -> Unit)
     TextField(
         label = { Text(label) },
         value = value,
-//        keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()}),
+        keyboardActions = KeyboardActions(onDone = {focusManager.clearFocus()}),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
         onValueChange = {onValueChanged(it)},
         maxLines = 1,

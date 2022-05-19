@@ -33,7 +33,6 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 is GeneratorViewState.Error -> {
                     val state = viewState.value as GeneratorViewState.Error
                    LaunchedEffect(scaffoldState.snackbarHostState) {
-
                        scaffoldState.snackbarHostState.showSnackbar(state.msg)
                     }
                 }
@@ -53,7 +52,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-                    viewModel.handleIntent(GenerateNumber(fromTextState.toInt(), toTextState.toInt()))
+                    viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
                 },
                 modifier = Modifier.align(CenterHorizontally)
             ) {Text("Next")}
