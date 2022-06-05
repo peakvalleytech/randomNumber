@@ -3,4 +3,5 @@
     <string name="Randomize">Randomize</string>
     <string name="From">From</string>
     <string name="To">To</string>
+    <string name="error_invalid_range">Not a valid range</string>
 </resources>

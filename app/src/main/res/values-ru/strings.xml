@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Случайное число</string>
+    <string name="Randomize">Случайный</string>
+    <string name="From">От</string>
+    <string name="To">Кому</string>
+    <string name="error_invalid_range">Недопустимый диапазон</string>
+</resources>

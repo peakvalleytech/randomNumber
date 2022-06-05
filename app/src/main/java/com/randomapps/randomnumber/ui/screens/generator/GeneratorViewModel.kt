@@ -1,7 +1,9 @@
 package com.randomapps.randomnumber.ui.screens.generator
 
+import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.randomapps.randomgenerator.domain.usecase.GenerateNumberUseCase
+import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
 import com.randomapps.randomnumber.ui.common.ViewState
@@ -12,7 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GeneratorViewModel @Inject constructor(val generateNumberUseCase : GenerateNumberUseCase) : BaseViewModel() {
+class GeneratorViewModel @Inject constructor(val generateNumberUseCase : GenerateNumberUseCase,
+                                             application: Application
+) : BaseViewModel(application) {
     override fun handleIntent(intent: Intent) {
         when (intent) {
             is ResetState -> {
@@ -28,7 +32,7 @@ class GeneratorViewModel @Inject constructor(val generateNumberUseCase : Generat
                         val number = generateNumberUseCase.generateNumber(from, to)
                         _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
                     } catch (e: IllegalArgumentException) {
-                        _stateFlow.emit(GeneratorViewState.Error("Not a valid range"))
+                        _stateFlow.emit(GeneratorViewState.Error(getApplication<Application>().getString(R.string.error_invalid_range)))
                     } catch (e: java.lang.NumberFormatException) {
                          _stateFlow.emit(GeneratorViewState.Error("Not a valid range"))
                     }

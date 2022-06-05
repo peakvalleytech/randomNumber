@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Número Aleatório</string>
+    <string name="To">Para</string>
+    <string name="From">De</string>
+    <string name="Randomize">Randomize</string>
+    <string name="error_invalid_range">Não é um intervalo válido</string>
+</resources>
