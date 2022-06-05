@@ -31,8 +31,11 @@ private val LightColorPalette = lightColors(
 // Palette 2
 private val DarkColorPalette = darkColors(
     primary = blue400,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primaryVariant = pink500,
+    secondary = Teal200,
+//    onSurface = pink500,
+
+//    onBackground = pink500,
 )
 
 private val LightColorPalette = lightColors(
