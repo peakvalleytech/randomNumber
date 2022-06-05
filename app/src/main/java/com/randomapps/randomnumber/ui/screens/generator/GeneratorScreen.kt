@@ -1,11 +1,13 @@
 package com.randomapps.randomnumber.ui.screens.generator
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,7 +27,8 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val scaffoldState = rememberScaffoldState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Scaffold(scaffoldState = scaffoldState) {
+    Scaffold(scaffoldState = scaffoldState
+    ) {
         Column(
             Modifier
                 .fillMaxWidth()
@@ -45,6 +48,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
             }
 
             Text(numberState,
+                color = MaterialTheme.colors.primaryVariant,
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier.align(CenterHorizontally))
             Spacer(modifier = Modifier.height(16.dp))
