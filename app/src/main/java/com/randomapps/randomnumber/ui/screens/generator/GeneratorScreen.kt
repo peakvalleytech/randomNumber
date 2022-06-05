@@ -9,9 +9,11 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
@@ -52,11 +54,11 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 style = MaterialTheme.typography.h1,
                 modifier = Modifier.align(CenterHorizontally))
             Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = "From", value = fromTextState) { newText ->
+            AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
                 fromTextState = newText
             }
             Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = "To", value = toTextState) { newText ->
+            AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
                 toTextState = newText
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -67,7 +69,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 },
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                 modifier = Modifier.align(CenterHorizontally)
-            ) {Text("Next")}
+            ) {Text(stringResource(R.string.Randomize))}
 
         }
 
