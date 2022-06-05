@@ -40,16 +40,16 @@ private val DarkColorPalette = darkColors(
 
 private val LightColorPalette = lightColors(
     primary = blue400,
-    primaryVariant = Purple700,
+    primaryVariant = pink500,
     secondary = Teal200,
 
 //     Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = pink500,
-    onSurface = pink500,
+//    background = Color.White,
+//    surface = Color.White,
+//    onPrimary = Color.White,
+//    onSecondary = Color.Black,
+//    onBackground = pink500,
+//    onSurface = pink500,
 
 )
 @Composable

@@ -65,6 +65,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     keyboardController?.hide()
                     viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
                 },
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
                 modifier = Modifier.align(CenterHorizontally)
             ) {Text("Next")}
 

@@ -12,8 +12,13 @@ import com.randomapps.randomnumber.ui.theme.blue400
 @Composable
 fun RandomNumberTopBar() {
     TopAppBar(
-        title = {Text("Random Number")},
-       backgroundColor = blue400
+        title = {
+            Text(
+                "Random Number",
+                color = Color.White
+            )
+        },
+        backgroundColor = blue400
     )
 
 }
