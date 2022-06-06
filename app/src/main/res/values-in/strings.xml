@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nomor Acak</string>
+    <string name="Randomize">Mengacak</string>
+    <string name="From">Dari</string>
+    <string name="To">Ke</string>
+    <string name="error_invalid_range">Bukan rentang yang valid</string>
+</resources>
