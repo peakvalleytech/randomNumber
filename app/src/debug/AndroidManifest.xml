@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.randomapps.randomnumber">
+
+    <application>
+
+    </application>
+    <meta-data android:name="firebase_analytics_collection_enabled" android:value="false"/>
+    <meta-data android:name="firebase_crashlytics+collection_enabled" android:value="false"/>
+</manifest>
