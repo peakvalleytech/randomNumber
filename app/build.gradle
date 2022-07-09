@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -64,7 +66,6 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
     implementation 'androidx.activity:activity-compose:1.4.0'
 
-
     // Domain
     implementation project(path: ':app:domain')
 
@@ -82,6 +83,13 @@ dependencies {
     // Debugging
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
+    // Monetization
     implementation "com.google.android.gms:play-services-ads:21.0.0"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+
 
 }
