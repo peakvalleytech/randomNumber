@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,21 +41,18 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         MobileAds.initialize(this) {}
-//        val adView = AdView(this)
-//        adView.setAdSize(AdSize.BANNER)
-//        adView.setAdUnitId("ca-app-pub-3142101706002267/5276646677")
-//        addContentView(adView, ViewGroup.LayoutParams(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//        ))
-//        adView.loadAd(adRequest)
         val adRequest = AdRequest.Builder().build()
 
         setContent {
             RandomNumberTheme {
                 // A surface container using the 'background' color from the theme
-                Column(verticalArrangement = Arrangement.SpaceBetween) {
-                    Surface(border = BorderStroke(3.dp, Color.Cyan), color = Color.Yellow, modifier = Modifier.fillMaxHeight(0.95f)) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Surface(/*border = BorderStroke(3.dp, Color.Cyan),*/ color = Color.Yellow,
+                        modifier = Modifier.fillMaxHeight(0.92f)
+                    ) {
                         Scaffold(
                             topBar = {
                                 RandomNumberTopBar()
