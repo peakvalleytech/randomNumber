@@ -17,7 +17,9 @@ import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalComposeUiApi
 @Composable
 fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
@@ -29,47 +31,87 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val scaffoldState = rememberScaffoldState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val modalBottomSheetState = rememberModalBottomSheetState(initialValue =
+(ModalBottomSheetValue.Expanded)
+    )
+    val scope = rememberCoroutineScope()
     Scaffold(scaffoldState = scaffoldState
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()) {
-            when (viewState.value) {
-                is GeneratorViewState.Success -> {
-                    val state = viewState.value as GeneratorViewState.Success
-                    numberState = state.number
+
+//        LaunchedEffect(key1 = bottomSheetScaffoldState.bottomSheetState){
+//            bottomSheetScaffoldState.bottomSheetState.expand()
+//        }
+        ModalBottomSheetLayout(
+            sheetState = modalBottomSheetState,
+            sheetContent = {
+                Button(onClick = {
+                scope
+                }) {Text("Show toast")}
+                Text(numberState,
+                    color = MaterialTheme.colors.primaryVariant,
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.align(CenterHorizontally))
+                Spacer(modifier = Modifier.height(16.dp))
+                AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
+                    fromTextState = newText
                 }
-                is GeneratorViewState.Error -> {
-                    val state = viewState.value as GeneratorViewState.Error
-                   LaunchedEffect(scaffoldState.snackbarHostState) {
-                       scaffoldState.snackbarHostState.showSnackbar(state.msg)
-                       viewModel.handleIntent(ResetState())
+                Spacer(modifier = Modifier.height(16.dp))
+                AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
+                    toTextState = newText
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        keyboardController?.hide()
+                        viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
+                    },
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                    modifier = Modifier.align(CenterHorizontally)
+                ) {Text(stringResource(R.string.Randomize))}
+
+            }
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()) {
+                when (viewState.value) {
+                    is GeneratorViewState.Success -> {
+                        val state = viewState.value as GeneratorViewState.Success
+                        numberState = state.number
+                    }
+                    is GeneratorViewState.Error -> {
+                        val state = viewState.value as GeneratorViewState.Error
+                        LaunchedEffect(scaffoldState.snackbarHostState) {
+                            scaffoldState.snackbarHostState.showSnackbar(state.msg)
+                            viewModel.handleIntent(ResetState())
+                        }
                     }
                 }
-            }
 
-            Text(numberState,
-                color = MaterialTheme.colors.primaryVariant,
-                style = MaterialTheme.typography.h1,
-                modifier = Modifier.align(CenterHorizontally))
-            Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
-                fromTextState = newText
+                Text(numberState,
+                    color = MaterialTheme.colors.primaryVariant,
+                    style = MaterialTheme.typography.h1,
+                    modifier = Modifier.align(CenterHorizontally))
+                Spacer(modifier = Modifier.height(16.dp))
+                AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
+                    fromTextState = newText
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
+                    toTextState = newText
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        keyboardController?.hide()
+                        viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
+                    },
+                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                    modifier = Modifier.align(CenterHorizontally)
+                ) {Text(stringResource(R.string.Randomize))}
+
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
-                toTextState = newText
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    keyboardController?.hide()
-                    viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
-                },
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                modifier = Modifier.align(CenterHorizontally)
-            ) {Text(stringResource(R.string.Randomize))}
 
         }
 
