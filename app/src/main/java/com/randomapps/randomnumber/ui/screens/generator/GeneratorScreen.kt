@@ -1,9 +1,9 @@
 package com.randomapps.randomnumber.ui.screens.generator
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -36,7 +36,16 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     )
     val scope = rememberCoroutineScope()
     Scaffold(scaffoldState = scaffoldState,
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+            scope.launch {
+                modalBottomSheetState.show()
 
+            }
+            }) {
+
+            }
+        }
     ) {
 
 //        LaunchedEffect(key1 = bottomSheetScaffoldState.bottomSheetState){
@@ -71,7 +80,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
 
             }
         ) {
-            Column(
+            Box(
                 Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
@@ -91,10 +100,12 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
 
                 Text(numberState,
                     color = MaterialTheme.colors.primaryVariant,
-                    style = MaterialTheme.typography.h1,
-                    modifier = Modifier.align(CenterHorizontally))
+                    style = MaterialTheme.typography.h1)
                 Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { /*TODO*/ }, modifier = Modifier.align(BottomCenter)) {
+                    Text("Add")
 
+                }
             }
 
         }
