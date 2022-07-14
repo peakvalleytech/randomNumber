@@ -35,7 +35,8 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
 (ModalBottomSheetValue.Expanded)
     )
     val scope = rememberCoroutineScope()
-    Scaffold(scaffoldState = scaffoldState
+    Scaffold(scaffoldState = scaffoldState,
+
     ) {
 
 //        LaunchedEffect(key1 = bottomSheetScaffoldState.bottomSheetState){
@@ -44,30 +45,29 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
         ModalBottomSheetLayout(
             sheetState = modalBottomSheetState,
             sheetContent = {
-                Button(onClick = {
-                scope
-                }) {Text("Show toast")}
-                Text(numberState,
-                    color = MaterialTheme.colors.primaryVariant,
-                    style = MaterialTheme.typography.h1,
-                    modifier = Modifier.align(CenterHorizontally))
-                Spacer(modifier = Modifier.height(16.dp))
-                AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
-                    fromTextState = newText
+                Column(Modifier.padding(16.dp)) {
+                    AppTextField(label = stringResource(R.string.name), value = fromTextState) { newText ->
+                        fromTextState = newText
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
+                        fromTextState = newText
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
+                        toTextState = newText
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            keyboardController?.hide()
+                            viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
+                        },
+                        colors = ButtonDefaults.buttonColors(contentColor = Color.White),
+                        modifier = Modifier.align(CenterHorizontally)
+                    ) {Text(stringResource(R.string.add))}
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-                AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
-                    toTextState = newText
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        keyboardController?.hide()
-                        viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
-                    },
-                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                    modifier = Modifier.align(CenterHorizontally)
-                ) {Text(stringResource(R.string.Randomize))}
+
 
             }
         ) {
@@ -94,22 +94,6 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     style = MaterialTheme.typography.h1,
                     modifier = Modifier.align(CenterHorizontally))
                 Spacer(modifier = Modifier.height(16.dp))
-                AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
-                    fromTextState = newText
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
-                    toTextState = newText
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(
-                    onClick = {
-                        keyboardController?.hide()
-                        viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
-                    },
-                    colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                    modifier = Modifier.align(CenterHorizontally)
-                ) {Text(stringResource(R.string.Randomize))}
 
             }
 

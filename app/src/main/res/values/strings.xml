@@ -4,4 +4,6 @@
     <string name="From">From</string>
     <string name="To">To</string>
     <string name="error_invalid_range">Not a valid range</string>
+    <string name="name">Name</string>
+    <string name="add">Add</string>
 </resources>
