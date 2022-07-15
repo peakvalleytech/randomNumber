@@ -1,10 +1,16 @@
 package com.randomapps.randomnumber.ui.screens.generator
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.BottomCenter
+import androidx.compose.ui.Alignment.Companion.BottomEnd
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,14 +43,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val scope = rememberCoroutineScope()
     Scaffold(scaffoldState = scaffoldState,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-            scope.launch {
-                modalBottomSheetState.show()
 
-            }
-            }) {
-
-            }
         }
     ) {
 
@@ -54,6 +53,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
         ModalBottomSheetLayout(
             sheetState = modalBottomSheetState,
             sheetContent = {
+
                 Column(Modifier.padding(16.dp)) {
                     AppTextField(label = stringResource(R.string.name), value = fromTextState) { newText ->
                         fromTextState = newText
@@ -77,10 +77,11 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     ) {Text(stringResource(R.string.add))}
                 }
 
-
             }
         ) {
             Box(
+                contentAlignment = Center,
+                modifier =
                 Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
@@ -97,14 +98,37 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         }
                     }
                 }
-
-                Text(numberState,
-                    color = MaterialTheme.colors.primaryVariant,
-                    style = MaterialTheme.typography.h1)
+                Column(
+                    modifier = Modifier
+                        .align(TopCenter)
+                        .background(Color.LightGray)
+                        .fillMaxWidth()
+                        .height(200.dp)) {
+                    Text(numberState,
+                        color = MaterialTheme.colors.primaryVariant,
+                        style = MaterialTheme.typography.h1)
+                }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /*TODO*/ }, modifier = Modifier.align(BottomCenter)) {
-                    Text("Add")
+                Column(
+                    Modifier
+                        .background(Color.Gray)
+                        .padding(16.dp)
+                        .fillMaxWidth()
+                        .height(444.dp)) {
 
+                }
+                FloatingActionButton(onClick = {
+                    scope.launch {
+                        modalBottomSheetState.show()
+                    }
+                },
+                    backgroundColor = MaterialTheme.colors.primary,
+                modifier =
+                Modifier
+                    .align(BottomEnd)
+                    .padding(end = 16.dp, bottom = 16.dp)
+                ) {
+                    Icon(imageVector = Icons.Default.Add, "Add generator")
                 }
             }
 
