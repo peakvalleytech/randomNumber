@@ -114,7 +114,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         .background(Color.Gray)
                         .padding(16.dp)
                         .fillMaxWidth()
-                        .height(444.dp)) {
+                        .height(355.dp)) {
 
                 }
                 FloatingActionButton(onClick = {
