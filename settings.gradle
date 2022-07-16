@@ -9,4 +9,3 @@ dependencyResolutionManagement {
 rootProject.name = "RandomNumber"
 include ':app'
 include ':app:domain'
-include ':app:data'

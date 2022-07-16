@@ -7,8 +7,8 @@ buildscript {
         gradlPluginVersion = '1.5.21'
         safeArgsVersion = '2.3.5'
         hiltPluginVersion = '2.38.1'
-
-        // Android
+//
+//        // Android
         applciationId = "com.randomApps.randomNumber"
         compileSdkVersion = 30
         buildToolsVersion = "30.0.2"
@@ -17,8 +17,8 @@ buildscript {
 
         androidCompileSdkVersion = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        compose_version = '1.0.1'
-
+        compose_version = '1.2'
+//
         coreKtxVersion = '1.7.0'
         ifecycleRuntimeKtxVersion = '2.4.0'
 
@@ -53,8 +53,8 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$gradlPluginVersion"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$safeArgsVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltPluginVersion"
         classpath 'com.google.gms:google-services:4.3.13'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
