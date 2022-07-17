@@ -1,5 +1,6 @@
 package com.randomapps.randomnumber.ui.common.component
 
+import android.provider.ContactsContract
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,7 +22,11 @@ fun AppTextField(label: String, value: String, onValueChanged: (String) -> Unit)
     TextField(
         label = { Text(label) },
         value = value,
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = {
+            focusManager.clearFocus()
+        }),
         onValueChange = {onValueChanged(it)},
         maxLines = 1,
         modifier = Modifier.align(Alignment.Center))
