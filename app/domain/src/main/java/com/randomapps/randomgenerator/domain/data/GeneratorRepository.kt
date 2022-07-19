@@ -4,6 +4,6 @@ import com.randomapps.randomgenerator.domain.models.NumberGenerator
 
 interface GeneratorRepository {
     fun create(generator: NumberGenerator)
-    fun getAll()
+    fun getAll() : List<NumberGenerator>
     fun delete(generator: NumberGenerator)
 }

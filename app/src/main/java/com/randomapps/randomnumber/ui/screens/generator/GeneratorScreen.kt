@@ -2,6 +2,8 @@ package com.randomapps.randomnumber.ui.screens.generator
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.SpaceEvenly
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -116,6 +118,35 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         .padding(16.dp)
                         .fillMaxWidth()
                         .height(444.dp)) {
+                    LazyColumn(modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+
+                    ) {
+                        val items = listOf("1", "2", "3")
+                        item {
+                            items.forEach {
+                                Column(
+                                    modifier =
+                                        Modifier.fillMaxWidth()
+                                ) {
+                                    Row(Modifier.fillMaxWidth(),
+                                        horizontalArrangement = SpaceEvenly ) {
+                                        Text("From ${it}")
+                                        Text(" To ${it.toInt() * 5}")
+                                        Button({}) {
+                                            Text("start")
+                                        }
+                                    }
+
+
+
+                                }
+
+                            }
+                        }
+                    }
 
                 }
                 FloatingActionButton(onClick = {

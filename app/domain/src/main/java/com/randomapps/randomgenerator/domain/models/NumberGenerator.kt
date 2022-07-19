@@ -1,8 +1,8 @@
 package com.randomapps.randomgenerator.domain.models
 
 data class NumberGenerator(
-    val id : Long,
-    val name : String,
-    val from : Int,
-    val to : Int
+    var id : Long,
+    var name : String,
+    var from : Int,
+    var to : Int
 )
