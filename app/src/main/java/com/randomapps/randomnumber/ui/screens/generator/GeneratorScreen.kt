@@ -35,6 +35,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val viewState = viewModel.stateFlow
         .collectAsState()
     var numberState by remember { mutableStateOf("") }
+    var nameTextState by remember { mutableStateOf("")}
     var fromTextState by remember { mutableStateOf("")}
     var toTextState by remember { mutableStateOf("")}
     val scaffoldState = rememberScaffoldState()
@@ -58,8 +59,8 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
             sheetContent = {
 
                 Column(Modifier.padding(16.dp)) {
-                    AppTextField(label = stringResource(R.string.name), value = fromTextState) { newText ->
-                        fromTextState = newText
+                    AppTextField(label = stringResource(R.string.name), value = nameTextState) { newText ->
+                        nameTextState = newText
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
