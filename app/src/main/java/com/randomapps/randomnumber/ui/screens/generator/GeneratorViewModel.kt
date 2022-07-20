@@ -2,7 +2,9 @@ package com.randomapps.randomnumber.ui.screens.generator
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import com.randomapps.randomgenerator.domain.usecase.AddGeneratorUseCase
 import com.randomapps.randomgenerator.domain.usecase.GenerateNumberUseCase
+import com.randomapps.randomgenerator.domain.usecase.GetAllGeneratorsUseCase
 import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
@@ -14,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GeneratorViewModel @Inject constructor(val generateNumberUseCase : GenerateNumberUseCase,
+class GeneratorViewModel @Inject constructor(
+    val addGeneratorUseCase: AddGeneratorUseCase,
+    val getAllGeneratorsUseCase: GetAllGeneratorsUseCase,
+    val generateNumberUseCase : GenerateNumberUseCase,
                                              application: Application
 ) : BaseViewModel(application) {
     override fun handleIntent(intent: Intent) {
