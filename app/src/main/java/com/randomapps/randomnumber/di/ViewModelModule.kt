@@ -10,11 +10,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-@Module
-@InstallIn(ViewModelComponent::class)
-class ViewModelModule {
-    @Provides
-    fun provideGeneratorViewModel(@ApplicationContext context : Context) : GeneratorViewModel {
-        return GeneratorViewModel(GenerateNumberUseCaseImpl(), context as Application)
-    }
-}
+//@Module
+//@InstallIn(ViewModelComponent::class)
+//class ViewModelModule {
+////    @Provides
+////    fun provideGeneratorViewModel(@ApplicationContext context : Context) : GeneratorViewModel {
+////        return GeneratorViewModel(, context as Application)
+////    }
+//}
