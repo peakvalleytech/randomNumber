@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.randomapps.randomgenerator.domain.models.NumberGenerator
 import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
@@ -89,10 +90,12 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 Modifier
                     .fillMaxWidth()
                     .fillMaxHeight()) {
+                var generators : List<NumberGenerator>? = null
                 when (viewState.value) {
                     is GeneratorViewState.Success -> {
                         val state = viewState.value as GeneratorViewState.Success
                         numberState = state.number
+                        generators = state.generators
                     }
                     is GeneratorViewState.Error -> {
                         val state = viewState.value as GeneratorViewState.Error
@@ -104,7 +107,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 }
                 Column(
                     modifier = Modifier
-                        .align(TopCenter)
+                        .align(TopCenter )
                         .background(Color.LightGray)
                         .fillMaxWidth()
                         .height(200.dp)) {
@@ -125,30 +128,26 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         .wrapContentHeight()
 
                     ) {
-                        val items = listOf("1", "2", "3")
                         item {
-                            items.forEach {
+                            generators?.forEach {
                                 Column(
                                     modifier =
                                         Modifier.fillMaxWidth()
                                 ) {
                                     Row(Modifier.fillMaxWidth(),
                                         horizontalArrangement = SpaceEvenly ) {
-                                        Text("From ${it}")
-                                        Text(" To ${it.toInt() * 5}")
+                                        Text(" ${it.name}")
+                                        Text("From ${it.from}")
+                                        Text(" To ${it.to}")
                                         Button({}) {
                                             Text("start")
                                         }
                                     }
-
-
-
                                 }
 
                             }
                         }
                     }
-
                 }
                 FloatingActionButton(onClick = {
                     scope.launch {

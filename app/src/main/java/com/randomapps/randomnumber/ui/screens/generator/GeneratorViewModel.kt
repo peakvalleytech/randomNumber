@@ -2,6 +2,7 @@ package com.randomapps.randomnumber.ui.screens.generator
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import com.randomapps.randomgenerator.domain.models.NumberGenerator
 import com.randomapps.randomgenerator.domain.usecase.AddGeneratorUseCase
 import com.randomapps.randomgenerator.domain.usecase.GenerateNumberUseCase
 import com.randomapps.randomgenerator.domain.usecase.GetAllGeneratorsUseCase
@@ -22,6 +23,13 @@ class GeneratorViewModel @Inject constructor(
     val generateNumberUseCase : GenerateNumberUseCase,
                                              application: Application
 ) : BaseViewModel(application) {
+    private var generators : List<NumberGenerator> = mutableListOf()
+    init {
+        viewModelScope.launch {
+            generators = getAllGeneratorsUseCase.get()
+            _stateFlow.emit(GeneratorViewState.Success("", generators))
+        }
+    }
     override fun handleIntent(intent: Intent) {
         when (intent) {
             is ResetState -> {
@@ -35,7 +43,7 @@ class GeneratorViewModel @Inject constructor(
                         val from = intent.from.toInt()
                         val to = intent.to.toInt()
                         val number = generateNumberUseCase.generateNumber(from, to)
-                        _stateFlow.emit(GeneratorViewState.Success(number.toString(), from, to))
+                        _stateFlow.emit(GeneratorViewState.Success(number.toString(), generators))
                     } catch (e: IllegalArgumentException) {
                         _stateFlow.emit(GeneratorViewState.Error(getApplication<Application>().getString(R.string.error_invalid_range)))
                     } catch (e: java.lang.NumberFormatException) {
@@ -49,6 +57,9 @@ class GeneratorViewModel @Inject constructor(
 
 sealed class GeneratorViewState : ViewState {
     class DefaultState() : GeneratorViewState()
-    class Success(val number : String, val from : Int, val to : Int) : GeneratorViewState()
+    class Success(
+        val number : String,
+        val generators : List<NumberGenerator>
+    ) : GeneratorViewState()
     class Error(val msg : String) : GeneratorViewState()
 }
