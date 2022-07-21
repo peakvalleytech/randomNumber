@@ -42,7 +42,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val modalBottomSheetState = rememberModalBottomSheetState(initialValue =
-(ModalBottomSheetValue.Expanded)
+(ModalBottomSheetValue.Hidden)
     )
     val scope = rememberCoroutineScope()
     Scaffold(scaffoldState = scaffoldState,
