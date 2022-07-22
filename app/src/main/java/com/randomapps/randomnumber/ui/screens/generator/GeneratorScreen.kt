@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.component.AppTextField
 import com.randomapps.randomnumber.ui.common.component.NumberGenerator
 import com.randomapps.randomnumber.ui.common.component.NumberGeneratorView
+import com.randomapps.randomnumber.ui.screens.generator.intents.AddGeneratorIntent
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
 import kotlinx.coroutines.launch
@@ -62,7 +64,8 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
             sheetContent = {
 
                 Column(Modifier.padding(16.dp)) {
-                    AppTextField(label = stringResource(R.string.name), value = nameTextState) { newText ->
+                    AppTextField(label = stringResource(R.string.name), value = nameTextState,
+                    keyboardType = KeyboardType.Text) { newText ->
                         nameTextState = newText
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -76,14 +79,21 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
-                            keyboardController?.hide()
-                            viewModel.handleIntent(GenerateNumber(fromTextState, toTextState))
+                            viewModel.handleIntent(
+                                AddGeneratorIntent(
+                                    nameTextState,
+                                    fromTextState,
+                                    toTextState
+                                )
+                            )
                         },
                         colors = ButtonDefaults.buttonColors(contentColor = Color.White),
-                        modifier = Modifier.align(CenterHorizontally)
+                        modifier =
+                        Modifier
+                            .align(CenterHorizontally)
+                            .fillMaxWidth()
                     ) {Text(stringResource(R.string.add))}
                 }
-
             }
         ) {
             Box(
@@ -135,7 +145,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                                 NumberGeneratorView(
                                     numberGenerator = it,
                                     onGenerateNumber = {
-                                        viewModel.handleIntent(GenerateNumber(it.from.toString(), it.to.toString()))
+                                        viewModel.handleIntent(GenerateNumber(it.from, it.to))
                                     }
                                     )
                                 Spacer(modifier = Modifier.height(8.dp))
