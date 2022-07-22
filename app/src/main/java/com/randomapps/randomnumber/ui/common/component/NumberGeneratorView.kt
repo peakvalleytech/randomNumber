@@ -13,11 +13,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.randomapps.randomgenerator.domain.models.NumberGenerator
+import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.theme.RandomNumberTheme
 
 @Composable
 fun NumberGeneratorView(
-    numberGenerator: NumberGenerator,
+    numberGenerator : NumberGenerator,
+    onGenerateNumber : () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -39,7 +41,7 @@ fun NumberGeneratorView(
                     .background(Color.LightGray)
                     .padding(8.dp)) {
                     Text("From", color = Color.Gray)
-                    Text(Int.MAX_VALUE.toString())
+                    Text(numberGenerator.from.toString())
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Column(modifier = Modifier
@@ -47,10 +49,12 @@ fun NumberGeneratorView(
                     .background(Color.LightGray)
                     .padding(8.dp)) {
                     Text("To", color = Color.Gray)
-                    Text(Int.MAX_VALUE.toString())
+                    Text(numberGenerator.to.toString())
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                IconButton(onClick = {  }, Modifier.width(54.dp).height(54.dp).background(MaterialTheme.colors.primary)) {
+                IconButton(onClick = {
+                    onGenerateNumber()
+                }, Modifier.width(54.dp).height(54.dp).background(MaterialTheme.colors.primary)) {
                     Icon(Icons.Default.PlayArrow
                     , contentDescription = "Generate Number")
                 }
@@ -65,6 +69,7 @@ fun NumberGeneratorViewPreview() {
     RandomNumberTheme() {
         NumberGeneratorView(
             numberGenerator = NumberGenerator(1, "Test generator preview", 1, 10),
+            onGenerateNumber = {},
             modifier = Modifier
                 .width(700.dp)
                 .padding(16.dp)
@@ -78,6 +83,7 @@ fun NumberGeneratorViewLargePreview() {
     RandomNumberTheme() {
         NumberGeneratorView(
             numberGenerator = NumberGenerator(1, "Test generator preview", 1, 10),
+            onGenerateNumber = {},
             modifier = Modifier
                 .width(1200.dp)
                 .padding(16.dp)

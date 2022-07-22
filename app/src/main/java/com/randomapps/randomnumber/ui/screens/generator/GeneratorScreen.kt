@@ -25,6 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.randomapps.randomgenerator.domain.models.NumberGenerator
 import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.component.AppTextField
+import com.randomapps.randomnumber.ui.common.component.NumberGenerator
+import com.randomapps.randomnumber.ui.common.component.NumberGeneratorView
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
 import com.randomapps.randomnumber.ui.screens.generator.intents.ResetState
 import kotlinx.coroutines.launch
@@ -107,7 +109,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 }
                 Column(
                     modifier = Modifier
-                        .align(TopCenter )
+                        .align(TopCenter)
                         .background(Color.LightGray)
                         .fillMaxWidth()
                         .height(200.dp)) {
@@ -130,21 +132,13 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     ) {
                         item {
                             generators?.forEach {
-                                Column(
-                                    modifier =
-                                        Modifier.fillMaxWidth()
-                                ) {
-                                    Row(Modifier.fillMaxWidth(),
-                                        horizontalArrangement = SpaceEvenly ) {
-                                        Text(" ${it.name}")
-                                        Text("From ${it.from}")
-                                        Text(" To ${it.to}")
-                                        Button({}) {
-                                            Text("start")
-                                        }
+                                NumberGeneratorView(
+                                    numberGenerator = it,
+                                    onGenerateNumber = {
+                                        viewModel.handleIntent(GenerateNumber(it.from.toString(), it.to.toString()))
                                     }
-                                }
-
+                                    )
+                                Spacer(modifier = Modifier.height(8.dp))
                             }
                         }
                     }
@@ -163,9 +157,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                     Icon(imageVector = Icons.Default.Add, "Add generator")
                 }
             }
-
         }
-
     }
 }
 
