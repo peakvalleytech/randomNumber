@@ -16,13 +16,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppTextField(label: String, value: String, onValueChanged: (String) -> Unit) {
+fun AppTextField(label: String, value: String, keyboardType : KeyboardType = KeyboardType.Number,  onValueChanged: (String) -> Unit) {
     Box(modifier = Modifier.fillMaxWidth()) {
         val focusManager = LocalFocusManager.current
     TextField(
         label = { Text(label) },
         value = value,
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number,
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType,
             imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
@@ -38,6 +38,6 @@ fun AppTextField(label: String, value: String, onValueChanged: (String) -> Unit)
 @Composable
 fun AppTextFieldPreview() {
     Column(Modifier.width(600.dp)) {
-        AppTextField("Label", "") {}
+        AppTextField("Label", "",  KeyboardType.Number,) {}
     }
 }
