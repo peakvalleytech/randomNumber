@@ -11,5 +11,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     protected val _stateFlow = MutableStateFlow<ViewState?>(null)
     val stateFlow = _stateFlow.asStateFlow()
 
+    protected val _effectFlow = MutableStateFlow<ViewEffect?>(null)
+    val effectFlow = _effectFlow.asStateFlow()
+
     abstract fun handleIntent(intent: Intent)
 }

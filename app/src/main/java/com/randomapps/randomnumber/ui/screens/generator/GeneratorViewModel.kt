@@ -9,6 +9,7 @@ import com.randomapps.randomgenerator.domain.usecase.GetAllGeneratorsUseCase
 import com.randomapps.randomnumber.R
 import com.randomapps.randomnumber.ui.common.BaseViewModel
 import com.randomapps.randomnumber.ui.common.Intent
+import com.randomapps.randomnumber.ui.common.ViewEffect
 import com.randomapps.randomnumber.ui.common.ViewState
 import com.randomapps.randomnumber.ui.screens.generator.intents.AddGeneratorIntent
 import com.randomapps.randomnumber.ui.screens.generator.intents.GenerateNumber
@@ -53,15 +54,22 @@ class GeneratorViewModel @Inject constructor(
                         )
                         generators.add(newGenerateor)
                         addGeneratorUseCase.add(newGenerateor)
+                        _effectFlow.emit(GeneratorViewEffect.GeneratorAdded())
                         _stateFlow.emit(GeneratorViewState.Success("", generators))
+
                     } catch (e: IllegalArgumentException) {
-                        _stateFlow.emit(GeneratorViewState.Error(getApplication<Application>().getString(R.string.error_invalid_range)))
+                        _effectFlow.emit(GeneratorViewEffect.Error(getApplication<Application>().getString(R.string.error_invalid_range)))
                     } catch (e: java.lang.NumberFormatException) {
-                        _stateFlow.emit(GeneratorViewState.Error("Not a valid range"))
+                        _effectFlow.emit(GeneratorViewEffect.Error("Not a valid range"))
+
                     }
                 }
             }
         }
+    }
+
+    fun resetEffect() {
+        _effectFlow.value = null
     }
 }
 
@@ -72,4 +80,11 @@ sealed class GeneratorViewState : ViewState {
         val generators : List<NumberGenerator>
     ) : GeneratorViewState()
     class Error(val msg : String) : GeneratorViewState()
+}
+
+sealed class GeneratorViewEffect : ViewEffect {
+    class Error(
+        val msg : String
+    ) : GeneratorViewEffect()
+    class GeneratorAdded() : GeneratorViewEffect()
 }

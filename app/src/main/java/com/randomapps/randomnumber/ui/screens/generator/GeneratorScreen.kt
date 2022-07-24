@@ -36,18 +36,20 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @ExperimentalComposeUiApi
 @Composable
-fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
+fun GeneratorScreen(viewModel: GeneratorViewModel = hiltViewModel()) {
     val viewState = viewModel.stateFlow
         .collectAsState()
+    val viewEffect = viewModel.effectFlow.collectAsState()
     var numberState by remember { mutableStateOf("") }
-    var nameTextState by remember { mutableStateOf("")}
-    var fromTextState by remember { mutableStateOf("")}
-    var toTextState by remember { mutableStateOf("")}
+    var nameTextState by remember { mutableStateOf("") }
+    var fromTextState by remember { mutableStateOf("") }
+    var toTextState by remember { mutableStateOf("") }
     val scaffoldState = rememberScaffoldState()
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val modalBottomSheetState = rememberModalBottomSheetState(initialValue =
-(ModalBottomSheetValue.Hidden)
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        initialValue =
+        (ModalBottomSheetValue.Hidden)
     )
     val scope = rememberCoroutineScope()
     Scaffold(scaffoldState = scaffoldState,
@@ -59,21 +61,44 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
 //        LaunchedEffect(key1 = bottomSheetScaffoldState.bottomSheetState){
 //            bottomSheetScaffoldState.bottomSheetState.expand()
 //        }
+
+        LaunchedEffect(viewEffect.value) {
+                when (viewEffect.value) {
+                    is GeneratorViewEffect.Error -> {
+                        val error = viewEffect.value as GeneratorViewEffect.Error
+                        scaffoldState.snackbarHostState.showSnackbar(error.msg)
+                    }
+                    is GeneratorViewEffect.GeneratorAdded -> {
+                        modalBottomSheetState.hide()
+                        scaffoldState.snackbarHostState.showSnackbar("Generator added.")
+                    }
+
+                }
+                viewModel.resetEffect()
+        }
         ModalBottomSheetLayout(
             sheetState = modalBottomSheetState,
             sheetContent = {
 
                 Column(Modifier.padding(16.dp)) {
-                    AppTextField(label = stringResource(R.string.name), value = nameTextState,
-                    keyboardType = KeyboardType.Text) { newText ->
+                    AppTextField(
+                        label = stringResource(R.string.name), value = nameTextState,
+                        keyboardType = KeyboardType.Text
+                    ) { newText ->
                         nameTextState = newText
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    AppTextField(label = stringResource(R.string.From), value = fromTextState) { newText ->
+                    AppTextField(
+                        label = stringResource(R.string.From),
+                        value = fromTextState
+                    ) { newText ->
                         fromTextState = newText
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    AppTextField(label = stringResource(R.string.To), value = toTextState) { newText ->
+                    AppTextField(
+                        label = stringResource(R.string.To),
+                        value = toTextState
+                    ) { newText ->
                         toTextState = newText
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -92,7 +117,7 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         Modifier
                             .align(CenterHorizontally)
                             .fillMaxWidth()
-                    ) {Text(stringResource(R.string.add))}
+                    ) { Text(stringResource(R.string.add)) }
                 }
             }
         ) {
@@ -101,31 +126,35 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                 modifier =
                 Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight()) {
-                var generators : List<NumberGenerator>? = null
+                    .fillMaxHeight()
+            ) {
+                var generators: List<NumberGenerator>? = null
                 when (viewState.value) {
                     is GeneratorViewState.Success -> {
                         val state = viewState.value as GeneratorViewState.Success
                         numberState = state.number
                         generators = state.generators
                     }
-                    is GeneratorViewState.Error -> {
-                        val state = viewState.value as GeneratorViewState.Error
-                        LaunchedEffect(scaffoldState.snackbarHostState) {
-                            scaffoldState.snackbarHostState.showSnackbar(state.msg)
-                            viewModel.handleIntent(ResetState())
-                        }
-                    }
+//                    is GeneratorViewState.Error -> {
+////                        val state = viewState.value as GeneratorViewState.Error
+////                        LaunchedEffect(scaffoldState.snackbarHostState) {
+////                            scaffoldState.snackbarHostState.showSnackbar(state.msg)
+////                            viewModel.handleIntent(ResetState())
+////                        }
+//                    }
                 }
                 Column(
                     modifier = Modifier
                         .align(TopCenter)
                         .background(Color.LightGray)
                         .fillMaxWidth()
-                        .height(200.dp)) {
-                    Text(numberState,
+                        .height(200.dp)
+                ) {
+                    Text(
+                        numberState,
                         color = MaterialTheme.colors.primaryVariant,
-                        style = MaterialTheme.typography.h1)
+                        style = MaterialTheme.typography.h1
+                    )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Column(
@@ -133,11 +162,13 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                         .background(Color.Gray)
                         .padding(16.dp)
                         .fillMaxWidth()
-                        .height(444.dp)) {
-                    LazyColumn(modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
+                        .height(444.dp)
+                ) {
+                    LazyColumn(
+                        modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
 
                     ) {
                         item {
@@ -147,22 +178,23 @@ fun GeneratorScreen(viewModel : GeneratorViewModel = hiltViewModel()) {
                                     onGenerateNumber = {
                                         viewModel.handleIntent(GenerateNumber(it.from, it.to))
                                     }
-                                    )
+                                )
                                 Spacer(modifier = Modifier.height(8.dp))
                             }
                         }
                     }
                 }
-                FloatingActionButton(onClick = {
-                    scope.launch {
-                        modalBottomSheetState.show()
-                    }
-                },
+                FloatingActionButton(
+                    onClick = {
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    },
                     backgroundColor = MaterialTheme.colors.primary,
-                modifier =
-                Modifier
-                    .align(BottomEnd)
-                    .padding(end = 16.dp, bottom = 16.dp)
+                    modifier =
+                    Modifier
+                        .align(BottomEnd)
+                        .padding(end = 16.dp, bottom = 16.dp)
                 ) {
                     Icon(imageVector = Icons.Default.Add, "Add generator")
                 }
