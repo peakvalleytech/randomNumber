@@ -24,6 +24,7 @@ fun NumberGeneratorView(
 ) {
     Card(
         modifier,
+        elevation = 8.dp
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             Text(

@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
@@ -20,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -153,13 +155,15 @@ fun GeneratorScreen(viewModel: GeneratorViewModel = hiltViewModel()) {
                     Text(
                         numberState,
                         color = MaterialTheme.colors.primaryVariant,
-                        style = MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.h1,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Column(
                     Modifier
-                        .background(Color.Gray)
+//                        .background()
                         .padding(top = 16.dp, end = 16.dp, start = 16.dp, bottom = 32.dp)
                         .fillMaxWidth()
                         .fillMaxHeight(0.75f)
@@ -180,7 +184,7 @@ fun GeneratorScreen(viewModel: GeneratorViewModel = hiltViewModel()) {
                                         viewModel.handleIntent(GenerateNumber(it.from, it.to))
                                     }
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
+                                Spacer(modifier = Modifier.height(16.dp))
                             }
                         }
                     }
