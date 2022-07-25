@@ -41,7 +41,10 @@ class GeneratorViewModel @Inject constructor(
             }
             is GenerateNumber -> {
                 viewModelScope.launch {
-
+                    val from = intent.from
+                    val to = intent.to
+                    val number = generateNumberUseCase.generateNumber(from, to)
+                    _stateFlow.emit(GeneratorViewState.Success(number.toString(), generators))
                 }
             }
             is AddGeneratorIntent -> {

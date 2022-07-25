@@ -148,7 +148,7 @@ fun GeneratorScreen(viewModel: GeneratorViewModel = hiltViewModel()) {
                         .align(TopCenter)
                         .background(Color.LightGray)
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .fillMaxHeight(0.25f)
                 ) {
                     Text(
                         numberState,
@@ -160,9 +160,10 @@ fun GeneratorScreen(viewModel: GeneratorViewModel = hiltViewModel()) {
                 Column(
                     Modifier
                         .background(Color.Gray)
-                        .padding(16.dp)
+                        .padding(top = 16.dp, end = 16.dp, start = 16.dp, bottom = 32.dp)
                         .fillMaxWidth()
-                        .height(444.dp)
+                        .fillMaxHeight(0.75f)
+                        .align(BottomCenter)
                 ) {
                     LazyColumn(
                         modifier =

@@ -55,8 +55,9 @@ fun NumberGeneratorView(
                 IconButton(onClick = {
                     onGenerateNumber()
                 }, Modifier.width(54.dp).height(54.dp).background(MaterialTheme.colors.primary)) {
-                    Icon(Icons.Default.PlayArrow
-                    , contentDescription = "Generate Number")
+                    Icon(Icons.Default.PlayArrow,
+                        tint = Color.White,
+                        contentDescription = "Generate Number")
                 }
             }
         }
